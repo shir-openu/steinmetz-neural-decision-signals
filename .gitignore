@@ -35,3 +35,6 @@ Thumbs.db
 *.png
 *.jpg
 *.jpeg
+
+# README (keep local only)
+README.md
