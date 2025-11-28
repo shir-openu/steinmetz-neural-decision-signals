@@ -1,0 +1,32 @@
+# Data files (too large for GitHub)
+DATA/
+*.npy
+*.npz
+*.mat
+
+# Manuscripts and figures (not for public repo)
+MANUSCRIPTS/
+FIGURES/
+PDFs/
+
+# Review files
+reviewe*.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.tmp.*
+*~
