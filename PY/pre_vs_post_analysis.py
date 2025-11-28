@@ -1,17 +1,51 @@
 """
 Pre-stimulus Inter-area vs Post-stimulus Local Activity Analysis
-================================================================
+=================================================================
 
-New research question based on literature:
-- Pre-stimulus: inter-area correlations predict choice (bias signal)
-- Post-stimulus: local activity predicts choice (evidence signal)
+This is the main analysis script for the manuscript:
+"Temporal Dissociation Between Inter-Area and Local Neural Signals
+in Perceptual Choice"
 
-This is a more nuanced and literature-supported hypothesis.
+Research Question:
+    Is there a temporal dissociation between inter-area and local neural
+    signals in predicting perceptual choice?
+
+Hypothesis (based on literature):
+    - Pre-stimulus: Inter-area correlations and local activity both predict
+      choice at similar, modest levels (reflecting distributed brain states)
+    - Post-stimulus: Local activity dominates choice prediction (reflecting
+      localized evidence accumulation)
+
+Methods:
+    - Compute inter-area correlations (pairwise Pearson correlations between
+      brain regions' population activity time series)
+    - Compute local activity (mean firing rates within each region)
+    - Decode choice using logistic regression with 5-fold cross-validation
+    - Compare predictive power across four time windows:
+        * Pre-early:  -500 to -250 ms (bins 0-25)
+        * Pre-late:   -250 to 0 ms   (bins 25-50)
+        * Post-early:  0 to +250 ms  (bins 50-75)
+        * Post-late:  +250 to +500 ms (bins 75-100)
+
+Key Results:
+    - Pre-stimulus: Both signals ~54% accuracy, no significant difference
+    - Post-stimulus: Local activity dominates (64-69% vs 55-57%)
 
 References:
-- Arieli et al., 1996; Hesselmann et al., 2008 (pre-stimulus states)
-- Fries 2005/2015; Donner et al., 2009 (inter-areal interactions)
-- Steinmetz et al., 2019; Mante et al., 2013 (post-stimulus local coding)
+    - Arieli et al., 1996; Hesselmann et al., 2008 (pre-stimulus states)
+    - Fries 2005/2015; Donner et al., 2009 (inter-areal interactions)
+    - Steinmetz et al., 2019; Mante et al., 2013 (post-stimulus local coding)
+    - Meijer et al., 2023 (pre-stimulus brain states)
+
+Usage:
+    python pre_vs_post_analysis.py
+
+Output:
+    - Console: Summary statistics and statistical tests
+    - Figure: pre_vs_post_analysis.png (saved to ../FIGURES/)
+
+Author: Shir Sivroni
+The Open University of Israel
 """
 
 import numpy as np

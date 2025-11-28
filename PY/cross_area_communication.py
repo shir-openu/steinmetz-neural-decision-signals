@@ -1,10 +1,35 @@
 """
 Cross-Area Communication Analysis
 =================================
-Does the communication between brain areas predict behavior?
 
-The Steinmetz dataset is unique - simultaneous recordings from many areas.
-Let's see if inter-area correlations/Granger causality predict choice.
+This module analyzes whether communication between brain areas predicts
+behavioral choice in a visual discrimination task.
+
+The Steinmetz et al. (2019) Neuropixels dataset is uniquely suited for this
+analysis as it provides simultaneous recordings from dozens of brain regions.
+
+Key Questions:
+    1. Does cross-area correlation predict choice above chance?
+    2. Does multi-area prediction outperform single-area prediction?
+
+Methods:
+    - Compute pairwise cross-correlations between brain regions
+    - Use logistic regression with cross-validation for choice decoding
+    - Compare single-area vs. multi-area feature sets
+
+Usage:
+    python cross_area_communication.py
+
+Output:
+    - Console: Summary statistics and top-performing area pairs
+    - Figure: cross_area_results.png (saved to ../FIGURES/)
+
+Reference:
+    Steinmetz NA, Zatka-Haas P, Carandini M, Harris KD (2019).
+    Distributed coding of choice, action and engagement across the mouse brain.
+    Nature 576:266-273.
+
+Author: Shir Sivroni
 """
 
 import numpy as np

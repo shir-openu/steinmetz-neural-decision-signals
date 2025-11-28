@@ -1,15 +1,46 @@
 """
 Cross-Area Communication Analysis - Robust Version
-Addressing reviewer concerns with proper controls
+===================================================
 
-Controls added:
-1. Previous choice, previous reward, trial number in regression
-2. Global firing rate as arousal surrogate
-3. Partial correlations controlling for firing rate
-4. Cross-mouse validation
-5. Multiple time windows (50ms sliding)
-6. Multiple models (L1, SVM, XGBoost)
-7. Electrode quality correlation
+This module extends the original cross-area analysis with rigorous controls
+to address common reviewer concerns about confounding factors.
+
+Controls Implemented:
+    1. Confound Regression: Previous choice, previous reward, trial number,
+       and global firing rate are included as nuisance regressors
+    2. Arousal Control: Global firing rate serves as an arousal surrogate
+    3. Partial Correlations: Control for global firing rate effects
+    4. Cross-Mouse Validation: Leave-one-mouse-out cross-validation
+    5. Sliding Time Windows: Multiple 50ms windows around stimulus onset
+    6. Multiple Classifiers: L1/L2 Logistic Regression, SVM, XGBoost
+    7. Electrode Quality: Correlate accuracy with recording quality metrics
+
+Key Analyses:
+    - Analysis 1: Regression with confound controls
+    - Analysis 2: Cross-mouse generalization
+    - Analysis 3: Partial correlations (controlling for firing rate)
+    - Analysis 4: Sliding window temporal analysis
+    - Analysis 5: Model comparison (multiple classifiers)
+    - Analysis 6: Electrode quality effects
+    - Analysis 7: Correlation direction stability
+
+Usage:
+    python cross_area_robust_analysis.py
+
+Output:
+    - Console: Detailed statistics for each analysis
+    - Figure: robust_analysis_results.png (saved to ../FIGURES/)
+
+Dependencies:
+    numpy, scipy, sklearn, matplotlib, pandas
+    Optional: xgboost (for XGBoost classifier comparison)
+
+Reference:
+    Steinmetz NA, Zatka-Haas P, Carandini M, Harris KD (2019).
+    Distributed coding of choice, action and engagement across the mouse brain.
+    Nature 576:266-273.
+
+Author: Shir Sivroni
 """
 
 import numpy as np
