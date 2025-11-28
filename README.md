@@ -84,8 +84,7 @@ python pre_vs_post_analysis.py
 ## Citation
 
 If you use this code, please cite:
-- Steinmetz et al. (2019) for the dataset
-- [Your paper] for the analysis
+- Steinmetz NA, Zatka-Haas P, Carandini M, Harris KD (2019). Distributed coding of choice, action and engagement across the mouse brain. Nature 576:266-273.
 
 ## License
 
