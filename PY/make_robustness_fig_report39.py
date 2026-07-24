@@ -59,6 +59,16 @@ warnings.filterwarnings('ignore')
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True)
 
+# Set global font sizes for better readability in LaTeX
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 16,
+    'axes.labelsize': 14,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 11
+})
+
 # Try to import xgboost
 try:
     from xgboost import XGBClassifier
@@ -555,14 +565,44 @@ print("\n" + "="*60)
 print("Creating summary figure...")
 print("="*60)
 
-fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+# --- save computed robustness numbers to a data file (for archiving + instant recolour) ---
+try:
+    import json as _json
+    _cache = {
+        "note": "Session-level, ordinary-accuracy robustness controls on the inter-area correlation model. Deterministic (seed 42). Values are percentages unless noted.",
+        "confound_control": {
+            "corr_only":      {"mean": float(scores1.mean()*100), "std": float(scores1.std()*100)},
+            "confounds_only": {"mean": float(scores2.mean()*100), "std": float(scores2.std()*100)},
+            "full_model":     {"mean": float(scores3.mean()*100), "std": float(scores3.std()*100)},
+        },
+        "cross_mouse": {"names": list(cross_mouse_names),
+                        "accuracy_pct": [float(s*100) for s in cross_mouse_scores],
+                        "mean_pct": float(np.mean(cross_mouse_scores)*100)},
+        "sliding_window": [{"window_bins": list(r["window"]),
+                            "start_ms": int(r["window"][0]*10-250),
+                            "accuracy_pct": float(r["accuracy"]*100),
+                            "std_pct": float(r["std"]*100)} for r in window_results],
+        "model_comparison": {k: {"mean_pct": float(model_results[k]["mean"]*100),
+                                 "std_pct": float(model_results[k]["std"]*100)} for k in model_results},
+        "feature_importance": {"features": list(feature_names),
+                               "abs_coef": [float(abs(c)) for c in model3.coef_[0]],
+                               "signed_coef": [float(c) for c in model3.coef_[0]]},
+    }
+    _cache_path = os.path.join(script_dir, '..', 'FIGURES', 'manuscript_v12', 'fig3_robustness_data.json')
+    _json.dump(_cache, open(_cache_path, 'w', encoding='utf-8'), indent=2)
+    print("Robustness data cached ->", _cache_path)
+except Exception as _e:
+    print("WARN: could not cache robustness data:", _e)
+
+plt.rcParams.update({'font.family':'Arial','axes.linewidth':0.9})
+fig, axes = plt.subplots(2, 3, figsize=(15, 9))
 
 # 1. Model comparison with confounds
 ax1 = axes[0, 0]
 models_names = ['Corr only', 'Confounds\nonly', 'Full model']
 accuracies = [scores1.mean()*100, scores2.mean()*100, scores3.mean()*100]
 errors = [scores1.std()*100, scores2.std()*100, scores3.std()*100]
-bars = ax1.bar(models_names, accuracies, yerr=errors, capsize=5, color=['#3498db', '#e74c3c', '#2ecc71'])
+bars = ax1.bar(models_names, accuracies, yerr=errors, capsize=5, color=['#c62828', '#9e9e9e', '#880e4f'])
 ax1.axhline(y=50, color='gray', linestyle='--', label='Chance')
 ax1.set_ylabel('Accuracy (%)')
 ax1.set_title('A. Confound Control Analysis')
@@ -577,9 +617,9 @@ for bar, acc in zip(bars, accuracies):
 ax2 = axes[0, 1]
 if len(cross_mouse_scores) > 0:
     mice_names = [f'{m[:4]}' for m in cross_mouse_names]
-    ax2.bar(mice_names, [s*100 for s in cross_mouse_scores], color='#9b59b6')
+    ax2.bar(mice_names, [s*100 for s in cross_mouse_scores], color='#880e4f')
     ax2.axhline(y=50, color='gray', linestyle='--', label='Chance')
-    ax2.axhline(y=np.mean(cross_mouse_scores)*100, color='red', linestyle='-',
+    ax2.axhline(y=np.mean(cross_mouse_scores)*100, color='#c62828', linestyle='-',
                 label=f'Mean: {np.mean(cross_mouse_scores)*100:.1f}%')
     ax2.set_ylabel('Accuracy (%)')
     ax2.set_title('B. Cross-Mouse Validation')
@@ -597,7 +637,7 @@ if window_results:
     stds = [r['std']*100 for r in window_results]
 
     x_pos = range(len(windows))
-    ax3.errorbar(x_pos, accs, yerr=stds, marker='o', capsize=5, color='#1abc9c', linewidth=2, markersize=8)
+    ax3.errorbar(x_pos, accs, yerr=stds, marker='o', capsize=5, color='#880e4f', linewidth=2, markersize=8)
     ax3.axhline(y=50, color='gray', linestyle='--')
     ax3.set_xticks(x_pos)
     ax3.set_xticklabels(windows, rotation=45)
@@ -612,7 +652,7 @@ ax4 = axes[1, 0]
 model_names_list = list(model_results.keys())
 model_accs = [model_results[m]['mean']*100 for m in model_names_list]
 model_stds = [model_results[m]['std']*100 for m in model_names_list]
-bars = ax4.barh(model_names_list, model_accs, xerr=model_stds, capsize=5, color='#f39c12')
+bars = ax4.barh(model_names_list, model_accs, xerr=model_stds, capsize=5, color='#ad1457')
 ax4.axvline(x=50, color='gray', linestyle='--')
 ax4.set_xlabel('Accuracy (%)')
 ax4.set_title('D. Model Comparison')
@@ -623,7 +663,7 @@ ax4.spines['right'].set_visible(False)
 # 5. Feature importance
 ax5 = axes[1, 1]
 coefs = model3.coef_[0]
-colors = ['#2ecc71' if c > 0 else '#e74c3c' for c in coefs]
+colors = ['#880e4f' if c > 0 else '#9e9e9e' for c in coefs]
 bars = ax5.barh(feature_names, np.abs(coefs), color=colors)
 ax5.set_xlabel('|Coefficient|')
 ax5.set_title('E. Feature Importance (Full Model)')
@@ -636,8 +676,9 @@ ax6 = axes[1, 2]
 ax6.axis('off')
 
 plt.tight_layout()
-fig_path = os.path.join(script_dir, '..', 'FIGURES', 'robust_analysis_results.png')
-plt.savefig(fig_path, dpi=150, bbox_inches='tight')
+fig_path = os.path.join(script_dir, '..', 'FIGURES', 'manuscript_v12', 'fig3_robustness_report39.png')
+plt.savefig(fig_path, dpi=300, bbox_inches='tight')
+plt.savefig(fig_path.replace('.png','.pdf'), bbox_inches='tight')
 plt.close()
 
 print(f"\nFigure saved to {fig_path}")

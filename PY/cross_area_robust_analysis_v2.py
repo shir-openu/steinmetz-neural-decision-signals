@@ -59,6 +59,16 @@ warnings.filterwarnings('ignore')
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True)
 
+# Set global font sizes for better readability in LaTeX
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 16,
+    'axes.labelsize': 14,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 11
+})
+
 # Try to import xgboost
 try:
     from xgboost import XGBClassifier
@@ -636,7 +646,7 @@ ax6 = axes[1, 2]
 ax6.axis('off')
 
 plt.tight_layout()
-fig_path = os.path.join(script_dir, '..', 'FIGURES', 'robust_analysis_results.png')
+fig_path = os.path.join(script_dir, '..', 'FIGURES', 'robust_analysis_results_v2.png')
 plt.savefig(fig_path, dpi=150, bbox_inches='tight')
 plt.close()
 

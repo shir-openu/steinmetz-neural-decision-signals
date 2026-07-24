@@ -30,11 +30,13 @@ The supported result is a **time-dependent difference in decodability between tw
 ├── reanalysis_results_summary.json   # Summary of the reanalysis outputs
 ├── requirements.txt                  # Package dependencies
 └── PY/
-    ├── analysis_additional.py        # Revised analysis script (fixed seed)
-    ├── cross_area_communication.py
-    ├── cross_area_robust_analysis.py
+    ├── analysis_additional.py           # Revised analysis script (fixed seed)
+    ├── make_figures_manuscript_v12.py   # Figures 1 & 2 (from results JSON)
+    ├── make_robustness_fig_report39.py  # Figure S1 (robustness) + data cache
+    ├── plot_robustness_from_cache.py    # Fast re-plot of Figure S1 from cache
+    ├── cross_area_robust_analysis.py    # Robustness controls
     ├── pre_vs_post_analysis.py
-    └── ...                           # Earlier analysis scripts
+    └── ...                              # Earlier analysis scripts
 ```
 
 ## Data

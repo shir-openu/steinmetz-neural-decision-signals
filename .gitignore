@@ -37,3 +37,23 @@ Thumbs.db
 *.jpeg
 
 # README (keep local only)
+
+# --- Private / not for public repo (added for v17 release) ---
+CGPT_REMARKS______________________________/
+EXAMPLES_FROM_OTHER_PAPERS/
+REFRENCES/
+RELEASE_v16/
+RELEASE_v17/
+LATEX/
+FIGS/
+EMAIL.txt
+EMAIL_TO_ALEX_HE.html
+*Gmail.html
+*_HE.html
+corrections-*.txt
+latex_*.txt
+suggested_corrections_*.txt
+manuscript_draft.md
+README.txt
+*.jpg
+*eNeuro.html
