@@ -1,8 +1,10 @@
 # Post-Stimulus Choice Decoding Is Stronger From Regional Firing Rates Than From Inter-Area Correlations
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21459797.svg)](https://doi.org/10.5281/zenodo.21459797)
+
 Reanalysis of the Steinmetz et al. (2019) Neuropixels dataset comparing two **matched-dimensional feature families** — regional mean firing rates vs. trial-wise inter-area correlations — for decoding perceptual choice.
 
-**Preprint (Zenodo):** https://doi.org/10.5281/zenodo.21459798
+**Preprint (Zenodo, all versions):** https://doi.org/10.5281/zenodo.21459797
 
 ## Key Finding
 
@@ -56,7 +58,7 @@ pip install -r requirements.txt
 
 ## Citation
 
-- **Preprint:** Sivroni S (2026). *Post-Stimulus Choice Decoding Is Stronger From Regional Firing Rates Than From Inter-Area Correlations.* Zenodo. https://doi.org/10.5281/zenodo.21459798
+- **Preprint:** Sivroni S (2026). *Post-Stimulus Choice Decoding Is Stronger From Regional Firing Rates Than From Inter-Area Correlations.* Zenodo. https://doi.org/10.5281/zenodo.21459797
 - **Dataset:** Steinmetz NA, Zatka-Haas P, Carandini M, Harris KD (2019). *Nature* 576:266–273.
 
 ## License
